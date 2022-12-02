@@ -11,6 +11,7 @@ const unsigned int maximum_number_items = 3;
 
 void chuckIntoHeap(unsigned int thing_to_chuck)
 {
+	// time complexity O(log(maximum_number_items)), space complexity O(maximum_number_items)
 	minimum_heap.push(thing_to_chuck);
 	if (minimum_heap.size() > maximum_number_items){
 		minimum_heap.pop();
@@ -18,6 +19,7 @@ void chuckIntoHeap(unsigned int thing_to_chuck)
 }
 
 int main(void){
+	// time complexity O(number_lines * log(maximum_number_items))
 	std::string line;
 	unsigned int maximum_number = 0;
 	unsigned int maximum_number_3 = 0;
