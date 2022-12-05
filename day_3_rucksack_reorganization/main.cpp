@@ -73,28 +73,27 @@ void part1() {
 }
 
 void part2() {
-    	unsigned int number_rucksacks; 
-    	cin >> number_rucksacks;
-    	string items;
-    	unsigned int sum = 0;
-    	for (unsigned int rucksack_number = 0; rucksack_number < number_rucksacks; rucksack_number++)
-    	{
-    		cin >> items;
-    		unsigned int number_items = items.size();
-    		vector<unordered_set<unsigned int>> sets(2);
-    		for (unsigned int item_number = 0; item_number < number_items / 2; item_number++)
-    		{
-    			sets[0].insert(getPriority(items[item_number]));
-    		}	
-    		for (unsigned int item_number = number_items / 2; item_number < number_items; item_number++)
-    		{
-    			sets[1].insert(getPriority(items[item_number]));
-    		}	
-    		unordered_set<unsigned int> result = findIntersection(sets);
-    		assert(result.size() == 1);
-    		sum += *result.begin();
-    	}
-    	cout << sum << endl;
+	unsigned int number_rucksacks; 
+	cin >> number_rucksacks;
+	string items;
+	unsigned int sum = 0;
+	for (unsigned int rucksack_number = 0; rucksack_number < number_rucksacks / 3; rucksack_number++)
+	{
+		unsigned int number_groups = 3;
+		vector<unordered_set<unsigned int>> sets(number_groups);
+		for (unsigned int member_number = 0; member_number < number_groups; member_number++)
+		{
+			cin >> items;
+			for (unsigned int item_number = 0; item_number < items.size(); item_number++)
+			{
+				sets[member_number].insert(getPriority(items[item_number]));
+			}	
+		}
+		unordered_set<unsigned int> result = findIntersection(sets);
+		assert(result.size() == 1);
+		sum += *result.begin();
+	}
+	cout << sum << endl;
 }
 
 

@@ -26,8 +26,6 @@ stress: $(EXE)
 test: $(OUT) $(EXE)
 
 $(OUT_DIR)/%.txt: $(IN_DIR)/%.txt $(CMP_DIR)/%.txt $(EXE) | $(OUT_DIR)
-	# cat in/2.txt | ./final > out/2.txt
-	# diff out/2.txt cmp/2.txt --ignore-trailing-space
 	cat $< | $(EXE) > $@
 	diff $@ $(word 2, $^) --ignore-trailing-space
 	
