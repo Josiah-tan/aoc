@@ -52,6 +52,7 @@ void part1() {
 
 void part2()
 {
+	// O(number_commands * log(how_many_average))
 	unsigned int number_stacks;
 	std::cin >> number_stacks;
 	std::vector<__gnu_cxx::crope> stacks(number_stacks, "");
