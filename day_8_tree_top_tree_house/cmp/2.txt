@@ -1,0 +1,2 @@
+sum = 1829
+multiplication_max = 291840
