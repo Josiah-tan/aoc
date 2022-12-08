@@ -20,43 +20,74 @@ int main(void){
 			trees[case_number].push_back(temporary_string[i]-'0');
 		}
 	}
-	
+
 	std::vector<std::vector<bool>> visible (number_cases, std::vector<bool>(temporary_string.size(), false));
-	std::vector<std::vector<int>> tallest_up(number_cases, std::vector<int>(temporary_string.size(), 0));
-	std::vector<std::vector<int>> tallest_left(number_cases, std::vector<int>(temporary_string.size(), 0));
-	std::vector<std::vector<int>> tallest_down(number_cases, std::vector<int>(temporary_string.size(), 0));
-	std::vector<std::vector<int>> tallest_right(number_cases, std::vector<int>(temporary_string.size(), 0));
-	
+
+	// looking to the left
 	for (unsigned int i = 0; i < number_cases; i++)
 	{
+		int max_left = -1;
 		for (unsigned int j = 0; j < temporary_string.size(); j++)
 		{
-			tallest_up[i][j] = (i == 0) || trees[i][j] > tallest_up[i-1][j] ? trees[i][j] : tallest_up[i-1][j];
-			tallest_left[i][j] = (j == 0) || trees[i][j] > tallest_left[i][j-1] ? trees[i][j] : tallest_left[i][j-1];
+			if (trees[i][j] > max_left)
+			{
+				max_left = trees[i][j];
+				visible[i][j] = 1;
+			}
 		}
 	}
-	
-	for (int i = number_cases - 1; i >= 0; i--)
+
+	// looking to the right
+	for (int i = 0; i < number_cases; i++)
 	{
+		int max_right = -1;
 		for (int j = temporary_string.size() - 1; j >= 0; j--)
 		{
-			tallest_down[i][j] = ((i == number_cases - 1) || trees[i][j] > tallest_down[i+1][j]) ? trees[i][j] : tallest_down[i+1][j];
-			tallest_right[i][j] = ((j == temporary_string.size() - 1) || trees[i][j] > tallest_right[i][j+1]) ? trees[i][j] : tallest_right[i][j+1];
+			if (trees[i][j] > max_right)
+			{
+				max_right = trees[i][j];
+				visible[i][j] = 1;
+			}
 		}
 	}
-	unsigned int sum = 0;
-	for (unsigned int i = 0; i < number_cases; i++)
+
+	// looking up
+	for (int j = 0; j < temporary_string.size() - 1; j++)
 	{
-		for (unsigned int j = 0; j < temporary_string.size(); j++)
+		int max_up = -1;
+		for (int i = 0; i < number_cases; i++)
 		{
-			visible[i][j] = i == 0 || j == 0 || i == number_cases - 1 || j == temporary_string.size() - 1 || 
-				trees[i][j] > tallest_up[i-1][j] || trees[i][j] > tallest_down[i+1][j] || trees[i][j] > tallest_left[i][j-1] ||
-				trees[i][j] > tallest_right[i][j+1];
-			sum += visible[i][j];
-
-
+			if (trees[i][j] > max_up)
+			{
+				max_up = trees[i][j];
+				visible[i][j] = 1;
+			}
 		}
 	}
+	
+	// looking down
+	for (int j = 0; j < temporary_string.size() - 1; j++)
+	{
+		int max_down = -1;
+		for (int i = number_cases - 1; i >= 0; i--)
+		{
+			if (trees[i][j] > max_down)
+			{
+				max_down = trees[i][j];
+				visible[i][j] = 1;
+			}
+		}
+	}
+
+	int sum = 0;
+	for (int i = 0; i < number_cases; i++)
+	{
+		for (int j = 0; j < temporary_string.size(); j++)
+		{
+			sum += visible[i][j];	
+		}
+	}
+
 	unsigned int multiplication_max = 0;
 	for (unsigned int i = 0; i < number_cases; i++)
 	{
