@@ -33,7 +33,7 @@ class Point:
         return self.x == obj.x and self.y == obj.y
     
     def __hash__(self):
-        return hash(self.x ^ self.y)
+        return hash((self.x, self.y))
 
 with open(f'{file_number}.txt') as f:
     entries = [a for a in f.read().rstrip().split('\n')]
@@ -79,7 +79,7 @@ class Line:
         return self.gradient == obj.gradient and self.intercept == obj.intercept
     
     def __hash__(self):
-        return hash(self.gradient ^ self.intercept)
+        return hash((self.gradient, self.intercept))
 
 ##
 

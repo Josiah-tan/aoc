@@ -26,7 +26,7 @@ class Point:
         return self.x == obj.x and self.y == obj.y
     
     def __hash__(self):
-        return hash(self.x ^ self.y)
+        return hash((self.x, self.y))
 
     def __rmul__(self, obj):
         return self.__mul__(obj)
