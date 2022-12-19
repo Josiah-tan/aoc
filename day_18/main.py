@@ -48,11 +48,3 @@ while not visiting.empty():
                 air.add(new_node)
                 visiting.put(new_node)
 print(f"answer2 = {answer2}")
-
-
-
-
-
-
-
-
