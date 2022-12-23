@@ -78,6 +78,7 @@ populateNeighbours(faces[0], "east", "r")
 
 visited = set()
 
+# quick dfs to create connections
 def walk(id):
     visited.add(id)
 
@@ -93,11 +94,12 @@ def walk(id):
             neighbour = coordinate2face[y][x]
             if neighbour and neighbour not in visited:
                 faces[neighbour]["face"] = faces[id][direction]
+                # populate the neighbour keeping in mind that in the opposite direction is the original face
                 populateNeighbours(faces[neighbour], directionsClockwise[(directionsClockwise.index(direction) + 2) % len(directionsClockwise)], faces[id]["face"])
                 walk(neighbour)
 walk(0)
 
-# print(faces)
+# print(faces)  # nice debugging
 
 ## initial position
 id = 0
@@ -127,7 +129,9 @@ for instruction in instructions:
                     if faces[current_id]["face"] == new_face:
                         new_id = current_id
                 direction_index = directionsClockwise.index(direction)
+                # while the direction is not facing opposite to the previous face
                 while faces[new_id][directionsClockwise[(direction_index + 2) % 4]] != faces[id]["face"]:
+                    # coordinate transformation: think about if you are walking East off the map, and end up South → [x, y] = [size - 1 - y, x]
                     [new_x, new_y] = [size - 1 - new_y, new_x]
                     direction_index = (direction_index + 1) % len(directionsClockwise)
                 new_direction = directionsClockwise[direction_index]
