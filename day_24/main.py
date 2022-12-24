@@ -22,7 +22,7 @@ for i in range(height):
             continue
         initial_arrows[(i, j)] = [entries[i][j]]
 
-def calculatePosition(initial_arrows, time):
+def calculateMap(initial_arrows, time):
     current_arrows = defaultdict(list)
 
     for (y, x), arrows in initial_arrows.items():
@@ -31,8 +31,8 @@ def calculatePosition(initial_arrows, time):
             current_arrows[((y + i * time) % height, (x + j * time) % width)].append(arrow)
     return current_arrows
 
-def drawPosition(initial_arrows, time):
-    current_arrows = calculatePosition(initial_arrows, time)
+def drawMap(initial_arrows, time, states=None):
+    current_arrows = calculateMap(initial_arrows, time)
     result = []
     for i in range(height):
         string = ""
@@ -42,35 +42,31 @@ def drawPosition(initial_arrows, time):
                     string += current_arrows[(i, j)][0]
                 else:
                     string += str(len(current_arrows[(i, j)]))
+            elif states and (i, j) in states:
+                string += "E"
             else:
                 string += "."
         result.append(string)
     return result
 
-# for i in range(6):
-#     print("#" * 5)
-#     print(f"iteration i = {i}")
-#     string = drawPosition(initial_arrows, i);
-#     print(f"string = \n{string}")
-
-
 def solve(start, goal, minute):
     states = {(start)}
     while True:
         minute += 1
+        current_map = calculateMap(initial_arrows, minute)
         new_states = set()
-        print(minute, len(states), max(i for i, j in states), max(j for i, j in states))
+        # print(minute, len(states), max(i for i, j in states), max(j for i, j in states))
         for y, x in states:
             for i, j in [(-1, 0), (1, 0), (0, -1), (0, 1), (0, 0)]:
                 new_y = y + i
                 new_x = x + j
                 if (new_y, new_x) == goal:
                     return minute
-                current_position = calculatePosition(initial_arrows, minute)
-                if (new_y, new_x) == start or (new_y >= 0 and new_x >= 0 and new_y < height and new_x < width and (new_y, new_x) not in current_position):
+                if (new_y, new_x) == start or (new_y >= 0 and new_x >= 0 and new_y < height and new_x < width and (new_y, new_x) not in current_map):
                     new_states.add((new_y, new_x))
-        # states = new_states
-        states = set(sorted(new_states, key=lambda pos: abs(pos[0] - goal[0]) + abs(pos[1] - goal[1]))[:100])
+        states = new_states
+        # print("#" * 30)
+        # print("\n".join(drawMap(initial_arrows, minute, states)))
 
 initial_x = 0
 initial_y = -1
