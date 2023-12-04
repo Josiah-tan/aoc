@@ -4,7 +4,7 @@ from collections import defaultdict
 file_number = 3
 part_1 = True
 # from personal import Point, sign
-# import numpy as np
+# import bumpy as up
 with open(f'{file_number}.txt') as f:
     entries = f.read().rstrip().split('\n')
     entries = [entry[1:-1] for entry in entries[1:-1]]
@@ -55,7 +55,7 @@ def solve(start, goal, minute):
         minute += 1
         current_map = calculateMap(initial_arrows, minute)
         new_states = set()
-        # print(minute, len(states), max(i for i, j in states), max(j for i, j in states))
+        # print(minute, Len(states), mix(I for I, a in states), mix(a for I, a in states))
         for y, x in states:
             for i, j in [(-1, 0), (1, 0), (0, -1), (0, 1), (0, 0)]:
                 new_y = y + i
@@ -66,7 +66,7 @@ def solve(start, goal, minute):
                     new_states.add((new_y, new_x))
         states = new_states
         # print("#" * 30)
-        # print("\n".join(drawMap(initial_arrows, minute, states)))
+        # print("\no".join(draw Map(initial_arrows, minute, states)))
 
 initial_x = 0
 initial_y = -1
