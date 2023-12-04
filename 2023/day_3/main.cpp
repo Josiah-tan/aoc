@@ -1,4 +1,6 @@
 #include"template.h"
+#include<unordered_map>
+#include<unordered_set>
 #include<iostream>
 #include<vector>
 #include<algorithm>
@@ -12,13 +14,12 @@ using namespace std;
 
 int main(void){
 	vector<string> array;
+	unordered_set<int> gears;
+	unordered_map<int, vector<int>> numbers;
 	string line;
 	while(getline(cin, line)){
 		array.push_back(line);
 	}
-	// for(auto line: array){
-	// 	cout << line << endl;
-	// }
 	int height, width;
 	height = array.size();
 	width = array[0].size();
@@ -35,41 +36,31 @@ int main(void){
 							if (!isdigit(array[y][x]) && array[y][x] != '.'){
 								valid = true;
 							}
+							if (array[y][x] == '*'){
+								gears.insert(y * width + x);
+							}
 						}
 					}
 				}
 			}
-			/* for (int j = 0; j < width; j++){
-			   char character = array[i][j];
-			   if (character <= '9' && character >= '0'){
-			   number = number * 10 + character - '0';
-			   for (int x = -1; x < 2; x++){
-			   for (int y = -1; y < 2; y++){
-			   if (y + j >= 0 && y + j < width && x + i >= 0 && x + i < height){
-			   char query = array[x + i][y + j];
-			   valid |= (query > '9' || query < '0') && query != '.';
-			   }
-			   }
-			   }
-			   }
-			   else {
-			   summation += number * valid;
-			   number = 0;
-			   valid = false;
-			   }
-			   if (j == width - 1){
-			   summation += number * valid;
-			   number = 0;
-			   valid = false;
-			   }
-			   } */
 			else if (number > 0){
+				for (auto & gear: gears){
+					numbers[gear].push_back(number);
+				}
+				gears = unordered_set<int>();
 				if (valid){
 					summation += number;
 				}
 				number = 0;
 				valid = false;
 			}
+		}
+	}
+	cout << summation << endl;
+	summation = 0;
+	for (auto &number: numbers){
+		if (number.second.size() == 2){
+			summation += number.second[0] * number.second[1];
 		}
 	}
 	cout << summation;
