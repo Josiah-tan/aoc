@@ -1,4 +1,4 @@
-file_number = 1
+file_number = 2
 part_1 = True
 # from competitive import Point, sign
 # import numpy as np
@@ -45,7 +45,7 @@ for entry in entries:
             remainder = i % 3
             if remainder == 0:
                 result += numbers[j + 1]
-            if remainder == 1:
+            elif remainder == 1:
                 result *= numbers[j + 1]
             else:
                 result = int(str(result) + str(numbers[j + 1]))
